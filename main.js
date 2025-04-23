@@ -8,20 +8,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Mobile Navigation
-    const navbar = document.querySelector('.navbar');
-    const mobileMenuBtn = document.createElement('button');
-    mobileMenuBtn.classList.add('mobile-menu-btn');
-    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-    navbar.appendChild(mobileMenuBtn);
+const navbar = document.querySelector('.navbar');
+const mobileMenuBtn = document.createElement('button');
+mobileMenuBtn.classList.add('mobile-menu-btn');
+mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+navbar.appendChild(mobileMenuBtn);
 
-    const navItems = document.querySelector('.nav-items');
-    mobileMenuBtn.addEventListener('click', () => {
+const navItems = document.querySelector('.nav-items');
+
+// Function to handle mobile menu visibility based on screen size
+const handleMobileMenu = () => {
+    if (window.innerWidth > 768) {
+        navItems.classList.remove('active');
+        navItems.style.display = 'flex';
+    } else {
+        navItems.style.display = navItems.classList.contains('active') ? 'flex' : 'none';
+    }
+};
+
+// Initial check
+handleMobileMenu();
+
+// Listen for window resize
+window.addEventListener('resize', handleMobileMenu);
+
+// Mobile menu click handler
+mobileMenuBtn.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
         navItems.classList.toggle('active');
         mobileMenuBtn.innerHTML = navItems.classList.contains('active') 
             ? '<i class="fas fa-times"></i>' 
             : '<i class="fas fa-bars"></i>';
-    });
-
+        handleMobileMenu();
+    }
+});
     // Navbar Scroll Effect
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
